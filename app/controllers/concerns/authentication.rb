@@ -101,7 +101,9 @@ module Authentication
 
     def set_current_session(session)
       Current.session = session
-      cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :lax }
+      # Noble fork: SameSite=None+Secure so the session cookie is sent
+      # when Fizzy runs inside the NobleCore /boards-2.0 iframe.
+      cookies.signed.permanent[:session_token] = { value: session.signed_id, httponly: true, same_site: :none, secure: true }
     end
 
     def terminate_session

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root "events#index"
 
+  # Noble SSO bridge (fork-only). See docs/fizzy/fork-patches.md.
+  get  "sso", to: "sso#show"
+  post "sso", to: "sso#create"
+
   namespace :account do
     resource :cancellation, only: [ :create ]
     resource :entropy
